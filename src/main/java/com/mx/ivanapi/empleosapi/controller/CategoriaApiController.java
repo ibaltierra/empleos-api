@@ -46,8 +46,8 @@ public class CategoriaApiController {
 	@DeleteMapping("/eliminar/{id}")
 	public ResponseEntity<Response> eliminar(@PathVariable("id") final Integer intId) {
 		final Categoria cat = this.buscarPorId(intId);
-		this.categoriasService.eliminar(intId);
-		final Response result = new Response(cat.getIntId(), cat.getStrNombre());		
+		final Response result = new Response(cat.getIntId(), cat.getStrNombre());
+		this.categoriasService.eliminar(intId);				
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	/**

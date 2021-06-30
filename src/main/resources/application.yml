@@ -1,0 +1,4 @@
+spring:
+  profiles: test  autoconfigure:    exclude:    - com.mx.ivanapi.empleosapi.model.*
+    - com.mx.ivanapi.empleosapi.config.Configuracion.java
+

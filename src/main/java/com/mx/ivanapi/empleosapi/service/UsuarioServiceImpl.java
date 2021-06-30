@@ -65,11 +65,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		try {
 			final Usuario tmp = new Usuario();
 			tmp.setIntIdUsuario(intId);
-			if(!this.solicitudesService.obtenerSolicitudPorUsuario(tmp).isEmpty()) {
-				return Boolean.FALSE;
+			if(this.solicitudesService.obtenerSolicitudPorUsuario(tmp).isEmpty()) {				
+				usuarioRepository.deleteById(intId);
+				return Boolean.TRUE;
 			}
-			usuarioRepository.deleteById(intId);
-			return Boolean.TRUE;
+			return Boolean.FALSE;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
