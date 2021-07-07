@@ -21,5 +21,10 @@ pipeline {
                 }
             }
         }
+		stage('Sonar'){
+			steps{
+				sh 'mvn clean install sonar:sonar'
+			}
+		}
     }
 }
