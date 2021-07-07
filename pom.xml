@@ -21,7 +21,7 @@
 		<mock.mvc>2.9.0</mock.mvc>
 		<project.test.result.directory>${project.build.directory}/test-results</project.test.result.directory>
 		<sonar.host.url>http://192.168.0.153:9000</sonar.host.url>
-		<onar.login>bc3857e22f0d5134516676fb409caeb3618c4dcd</sonar.login>
+		<sonar.login>bc3857e22f0d5134516676fb409caeb3618c4dcd</sonar.login>
 		<sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.test.result.directory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.exclusions>
