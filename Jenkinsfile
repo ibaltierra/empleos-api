@@ -11,7 +11,14 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('Test') {
+        
+		stage('Sonar'){
+			steps{
+				sh 'mvn clean install sonar:sonar'
+			}
+		}
+		
+		stage('Test') {
             steps {
                 sh 'mvn test'
             }
@@ -21,10 +28,5 @@ pipeline {
                 }
             }
         }
-		stage('Sonar'){
-			steps{
-				sh 'mvn clean install sonar:sonar'
-			}
-		}
     }
 }
