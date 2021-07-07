@@ -19,6 +19,28 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<mock.mvc>2.9.0</mock.mvc>
+		<project.test.result.directory>${project.build.directory}/test-results</project.test.result.directory>
+		<sonar.host.url>http://192.168.0.153:9000</sonar.host.url>
+		<sonar.login>bc3857e22f0d5134516676fb409caeb3618c4dcd</sonar.login>
+		<sonar.scm.provider>git</sonar.scm.provider>
+		<sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.test.result.directory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.exclusions>
+			**/*.xml
+		</sonar.exclusions>
+		<sonar.coverage.exclusions>
+			**/qualitymeasurementsample/*
+		</sonar.coverage.exclusions>
+	
+		<sonar.scm.provider>git</sonar.scm.provider>
+		<sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.test.result.directory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.exclusions>
+			**/*.xml
+		</sonar.exclusions>
+		<sonar.coverage.exclusions>
+			**/qualitymeasurementsample/*
+		</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
@@ -58,6 +80,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.sonar-plugins.java</groupId>
+			<artifactId>sonar-jacoco-listeners</artifactId>
+			<version>3.2</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
@@ -67,6 +96,12 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			<!-- <plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.7.0.1746</version>
+			</plugin>-->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -84,13 +119,46 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19.1</version>
+				<version>2.19.1</version>				
 				<configuration>
-					<excludes>
-						<exclude>com.mx.ivanapi.empleosapi.model.*</exclude>
-						<exclude>com.mx.ivanapi.empleosapi.config.*</exclude>
-					</excludes>
-				</configuration>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>org.sonar.java.jacoco.JUnitListener</value>
+						</property>
+					</properties>
+					<argLine>${jacocoArgLine}</argLine>
+					<reportsDirectory>${project.test.result.directory}/surefire</reportsDirectory>
+				</configuration>				
+			</plugin>
+			
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.5</version>
+				<executions>
+					<execution>
+						<id>pre-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<propertyName>jacocoArgLine</propertyName>
+							<destFile>${project.test.result.directory}/jacoco/jacoco.exec</destFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>post-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<dataFile>${project.test.result.directory}/jacoco/jacoco.exec</dataFile>
+							<outputDirectory>${project.test.result.directory}/jacoco</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
