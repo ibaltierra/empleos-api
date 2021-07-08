@@ -3,6 +3,7 @@ package com.mx.ivanapi.empleosapi.service;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +46,14 @@ public class CategoriasServiceImpl implements Serializable, ICategoriasService{
 	}
 	/**
 	 * Método que realiza la busqueda de una categoria por su id.
+	 * 		//return lstCategorias.stream().filter(cat-> cat.getIntId().intValue() == intId.intValue()).collect(Collectors.toList()).get(0);
 	 */
 	public Categoria buscarPorId(final Integer intId){
-		return this.categoriasRepository.findById(intId).get();
-		//return lstCategorias.stream().filter(cat-> cat.getIntId().intValue() == intId.intValue()).collect(Collectors.toList()).get(0);
+		final Optional<Categoria> catPorId=this.categoriasRepository.findById(intId);
+		if(catPorId.isPresent()) {
+			return catPorId.get();
+		}
+		return null;
 	}
 	/**
 	 * Método que guarda una categoria.

@@ -94,8 +94,7 @@ public class VacantesApiController {
 	 */
 	@DeleteMapping("/eliminar/{id}")
 	public void eliminar(@PathVariable("id") final Integer intIdVacante) throws ExceptionGeneria {
-		if(this.vacanteRepository.buscarPorId(intIdVacante) == null) {
-			System.out.println("No se encuentra el id!!");
+		if(this.vacanteRepository.buscarPorId(intIdVacante) == null) {			
 			throw new ExceptionGeneria("No se encuentra el id!!");
 		}
 		this.vacanteRepository.eliminar(intIdVacante);

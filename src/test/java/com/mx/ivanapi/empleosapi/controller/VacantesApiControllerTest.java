@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mx.ivanapi.empleosapi.controller.constants.Constant;
 import com.mx.ivanapi.empleosapi.model.Vacante;
 import com.mx.ivanapi.empleosapi.service.IVacantesService;
 
@@ -35,7 +36,7 @@ public class VacantesApiControllerTest {
 	private MockMvc mockMvc; 
 	private ObjectMapper mapper= new ObjectMapper();
 	private final static Vacante VACANTE = new Vacante();
-	private final static String BASE_ENDPOINT="/apiVacantes";
+	
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
@@ -46,7 +47,7 @@ public class VacantesApiControllerTest {
 	@Test
 	public void buscarTodasTest()throws Exception {
 		when(vacanteRepository.buscarTodas()).thenReturn(new ArrayList<>());
-		mockMvc.perform(MockMvcRequestBuilders.get(BASE_ENDPOINT + "/buscarTodas")
+		mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_ENDPOINT_VACANTE + "/buscarTodas")
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
@@ -54,7 +55,7 @@ public class VacantesApiControllerTest {
 	@Test
 	public void buscarDestacadasTest()throws Exception{
 		when(vacanteRepository.buscarDestacadas()).thenReturn(new ArrayList<>());
-		mockMvc.perform(MockMvcRequestBuilders.get(BASE_ENDPOINT + "/buscarDestacadas")
+		mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_ENDPOINT_VACANTE  + "/buscarDestacadas")
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
@@ -62,7 +63,7 @@ public class VacantesApiControllerTest {
 	@Test
 	public void buscarPorIdTest() throws Exception{
 		when(vacanteRepository.buscarPorId(Mockito.anyInt())).thenReturn(Mockito.any());
-		mockMvc.perform(MockMvcRequestBuilders.get(BASE_ENDPOINT + "/buscarPorId/{id}",1)
+		mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_ENDPOINT_VACANTE  + "/buscarPorId/{id}",1)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
@@ -70,7 +71,7 @@ public class VacantesApiControllerTest {
 	}
 	@Test
 	public void guardarTest()throws Exception{
-		mockMvc.perform(MockMvcRequestBuilders.post(BASE_ENDPOINT + "/guardar")
+		mockMvc.perform(MockMvcRequestBuilders.post(Constant.BASE_ENDPOINT_VACANTE  + "/guardar")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(this.mapper.writeValueAsString(VACANTE)))
 		.andExpect(MockMvcResultMatchers.status().isOk())
@@ -79,7 +80,7 @@ public class VacantesApiControllerTest {
 	@Test
 	public void modificarOkTest()throws Exception {
 		when(this.vacanteRepository.buscarPorId(Mockito.anyInt())).thenReturn(VACANTE);
-		mockMvc.perform(MockMvcRequestBuilders.put(BASE_ENDPOINT + "/modificar/{id}",1)
+		mockMvc.perform(MockMvcRequestBuilders.put(Constant.BASE_ENDPOINT_VACANTE  + "/modificar/{id}",1)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(this.mapper.writeValueAsString(VACANTE)))
 		.andExpect(MockMvcResultMatchers.status().isOk())
@@ -88,7 +89,7 @@ public class VacantesApiControllerTest {
 	@Test(expected = NestedServletException.class)
 	public void modificarBadRequesTest()throws Exception {
 		when(this.vacanteRepository.buscarPorId(Mockito.anyInt())).thenReturn(null);
-		mockMvc.perform(MockMvcRequestBuilders.put(BASE_ENDPOINT + "/modificar/{id}",1)
+		mockMvc.perform(MockMvcRequestBuilders.put(Constant.BASE_ENDPOINT_VACANTE  + "/modificar/{id}",1)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(this.mapper.writeValueAsString(VACANTE)))
 		.andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -97,7 +98,7 @@ public class VacantesApiControllerTest {
 	@Test
 	public void eliminarOkTest()throws Exception{
 		when(this.vacanteRepository.buscarPorId(Mockito.anyInt())).thenReturn(VACANTE);
-		mockMvc.perform(MockMvcRequestBuilders.delete(BASE_ENDPOINT + "/eliminar/{id}",1)
+		mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_ENDPOINT_VACANTE  + "/eliminar/{id}",1)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
@@ -105,7 +106,7 @@ public class VacantesApiControllerTest {
 	@Test(expected = NestedServletException.class)
 	public void eliminarBadTest()throws Exception{
 		when(this.vacanteRepository.buscarPorId(Mockito.anyInt())).thenReturn(null);
-		mockMvc.perform(MockMvcRequestBuilders.delete(BASE_ENDPOINT + "/eliminar/{id}",1)
+		mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_ENDPOINT_VACANTE  + "/eliminar/{id}",1)
 				.contentType(MediaType.APPLICATION_JSON));
 	}
 }

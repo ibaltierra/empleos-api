@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mx.ivanapi.empleosapi.controller.constants.Constant;
 import com.mx.ivanapi.empleosapi.model.Categoria;
 import com.mx.ivanapi.empleosapi.service.ICategoriasService;
 
@@ -32,7 +33,6 @@ public class CategoriaApiControllerTest {
 	private CategoriaApiController apiController;
 	private MockMvc mockMvc; 
 	private ObjectMapper mapper = new ObjectMapper();
-	private final static String BASE_PACKAGE ="/apiCategoria";
 	private final static Categoria CATEGORIA = new Categoria();
 	@Before
 	public void setUp() {
@@ -44,7 +44,7 @@ public class CategoriaApiControllerTest {
 	@Test
 	public void buscarTodasTest() throws Exception{
 		when(categoriasService.buscarTodas()).thenReturn(new ArrayList<Categoria>());
-		this.mockMvc.perform(MockMvcRequestBuilders.get(BASE_PACKAGE+ "/buscarTodas")
+		this.mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_PACKAGE_CATEGORIA + "/buscarTodas")
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
@@ -52,14 +52,14 @@ public class CategoriaApiControllerTest {
 	@Test
 	public void buscarPorIdTest() throws Exception{
 		when(categoriasService.buscarPorId(Mockito.anyInt())).thenReturn(Mockito.any());
-		this.mockMvc.perform(MockMvcRequestBuilders.get(BASE_PACKAGE+ "/buscarPorId/{id}",1)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_PACKAGE_CATEGORIA+ "/buscarPorId/{id}",1)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
 	}
 	@Test
 	public void guardarTest()throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post(BASE_PACKAGE + "/guardar")
+		this.mockMvc.perform(MockMvcRequestBuilders.post(Constant.BASE_PACKAGE_CATEGORIA + "/guardar")
 				.content(this.mapper.writeValueAsString(CATEGORIA))
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
@@ -68,7 +68,7 @@ public class CategoriaApiControllerTest {
 	@Test
 	public void eliminarTest() throws Exception{
 		when(categoriasService.buscarPorId(Mockito.anyInt())).thenReturn(CATEGORIA);
-		this.mockMvc.perform(MockMvcRequestBuilders.delete(BASE_PACKAGE + "/eliminar/{id}",1)
+		this.mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_PACKAGE_CATEGORIA + "/eliminar/{id}",1)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
