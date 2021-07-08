@@ -19,16 +19,12 @@ import com.mx.ivanapi.empleosapi.repository.CategoriasRepository;
 
 //@Primary indica cual es el bean principal de las implementaciones
 @Service
-public class CategoriasServiceImpl implements Serializable, ICategoriasService{
+public class CategoriasServiceImpl implements ICategoriasService{
 
 	private List<Categoria> lstCategorias;
 	@Autowired
 	private CategoriasRepository categoriasRepository;
-	/**
-	 * Constructor por default.
-	 */
-	public CategoriasServiceImpl() {		
-	}
+
 	/**
 	 * Método que regresa todas las categorias.
 	 */

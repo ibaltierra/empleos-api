@@ -44,8 +44,8 @@ public class CategoriasServiceImplTest {
 	@Test
 	public void buscarTodasTest() {
 		when(categoriasRepository.findAll(Sort.by(Constant.LABEL_MODEL_INT_ID))).thenReturn(lstCategorias);
-		final List lst = categoriasServiceImpl.buscarTodas();
-		assertEquals(lst.size(), 1);
+		final List<Categoria> lst = categoriasServiceImpl.buscarTodas();
+		assertEquals(lst.size(), Constant.N001);
 		assertNotNull(lst);
 	}
 	@Test

@@ -28,6 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.mx.ivanapi.empleosapi.controller.constants.Constant;
 import com.mx.ivanapi.empleosapi.model.Solicitud;
 import com.mx.ivanapi.empleosapi.model.Usuario;
 import com.mx.ivanapi.empleosapi.repository.SolicitudesRepository;
@@ -56,7 +57,7 @@ public class SolicitudesServiceImplTest {
 	}
 	@Test
 	public void buscarTodasTest() {
-		when(repository.findAll(Sort.by("intIdSolicitudes"))).thenReturn(new ArrayList<>());
+		when(repository.findAll(Sort.by(Constant.LABEL_MODEL_ID_SOLICITUDES))).thenReturn(new ArrayList<>());
 		final List<Solicitud> lstSolicitudes = this.solicitud.buscarTodas();
 		assertEquals(lstSolicitudes.size(), 0);
 		assertNotNull(lstSolicitudes);

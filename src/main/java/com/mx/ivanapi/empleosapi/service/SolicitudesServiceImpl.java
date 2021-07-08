@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.mx.ivanapi.empleosapi.controller.constants.Constant;
 import com.mx.ivanapi.empleosapi.model.Solicitud;
 import com.mx.ivanapi.empleosapi.model.Usuario;
 import com.mx.ivanapi.empleosapi.repository.SolicitudesRepository;
@@ -25,7 +26,7 @@ public class SolicitudesServiceImpl implements ISolicitudesService, Serializable
 	 * @return
 	 */
 	public List<Solicitud> buscarTodas(){
-		return repository.findAll(Sort.by("intIdSolicitudes"));
+		return repository.findAll(Sort.by(Constant.LABEL_MODEL_ID_SOLICITUDES));
 	}
 	/**
 	 *Método que busca todas las solicitudes por paginas. 

@@ -56,6 +56,7 @@ public class VacantesServiceImpl implements IVacantesService{
 	 * Método que realiza la busqueda de vacantes por id.
 	 * @param vacante
 	 * @return
+	 * 		//return this.lstVacantes.stream().filter(vacante -> vacante.getIntId().intValue() == intId).collect(Collectors.toList()).get(0);
 	 */
 	@Override
 	public Vacante buscarPorId(final int intId) {
@@ -65,7 +66,6 @@ public class VacantesServiceImpl implements IVacantesService{
 		}
 		return null;
 		
-		//return this.lstVacantes.stream().filter(vacante -> vacante.getIntId().intValue() == intId).collect(Collectors.toList()).get(0);
 	}
 	/**
 	 * Método que guarda una vacante.
