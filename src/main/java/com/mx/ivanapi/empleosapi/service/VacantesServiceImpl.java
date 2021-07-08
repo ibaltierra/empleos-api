@@ -22,11 +22,7 @@ public class VacantesServiceImpl implements IVacantesService{
 	private VacanteRepository vacanteRepository;
 	@Autowired
 	protected RestTemplate restTemplate;
-	/**
-	 * Constructor por default.
-	 */
-	public VacantesServiceImpl() {		
-	}
+	
 	
 	/**
 	 * Método que realiza la busqueda de todas las vacantes.
