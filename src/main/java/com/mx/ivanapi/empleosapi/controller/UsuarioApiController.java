@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mx.ivanapi.empleosapi.model.Usuario;
-import com.mx.ivanapi.empleosapi.response.ErrorResponse;
+import com.mx.ivanapi.empleosapi.controller.to.UsuarioTO;
 import com.mx.ivanapi.empleosapi.response.ExceptionGeneria;
 import com.mx.ivanapi.empleosapi.response.Response;
-import com.mx.ivanapi.empleosapi.service.ISolicitudesService;
 import com.mx.ivanapi.empleosapi.service.IUsuarioService;
 
 @RestController
@@ -26,26 +24,24 @@ import com.mx.ivanapi.empleosapi.service.IUsuarioService;
 public class UsuarioApiController {
 
 	@Autowired
-	private IUsuarioService service;
-	@Autowired
-	private ISolicitudesService serviceSol;
+	private IUsuarioService service;	
 	/**
 	 * Mètodo que guarda un usuario.
 	 * @param usuario
 	 * @return
 	 */
 	@PostMapping(value="/guardar")
-	public ResponseEntity<Response> guardar(@RequestBody final Usuario usuario) {
+	public ResponseEntity<Response> guardar(@RequestBody final UsuarioTO usuario) {
 		service.guardar(usuario);
 		final Response resultado = new Response(usuario.getIntIdUsuario(), usuario.getStrUserName());
-		return new ResponseEntity<Response>(resultado, HttpStatus.OK);
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	/**
 	 * Mètodo que realiza la busqueda de todos los usuarios.
 	 * @return
 	 */
 	@GetMapping("/buscarTodo")
-	public List<Usuario> buscarTodo(){
+	public List<UsuarioTO> buscarTodo(){
 		return this.service.buscarTodo();
 	}
 	/**
@@ -54,7 +50,7 @@ public class UsuarioApiController {
 	 * @return
 	 */
 	@GetMapping("/buscarPorId/{id}")
-	public Usuario buscarPorId(@PathVariable("id")final Integer intId) {
+	public UsuarioTO buscarPorId(@PathVariable("id")final Integer intId) {
 		return this.service.buscarPorId(intId);
 	}
 	/**
@@ -70,7 +66,7 @@ public class UsuarioApiController {
 			throw new ExceptionGeneria("No se puede eliminar el registro!!");
 		}
 		resultado = new Response(intId, "Registro eliminado");
-		return new ResponseEntity<Response>(resultado, HttpStatus.OK);
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	/**
 	 * Método que busca un usuario por su user name.
@@ -78,7 +74,7 @@ public class UsuarioApiController {
 	 * @return
 	 */
 	@GetMapping("/buscarPorUserName/{username}")
-	public Usuario buscarPorUserName(@PathVariable("username")final String strUserName) {
+	public UsuarioTO buscarPorUserName(@PathVariable("username")final String strUserName) {
 		return this.service.buscarPorUserName(strUserName);
 	}
 }

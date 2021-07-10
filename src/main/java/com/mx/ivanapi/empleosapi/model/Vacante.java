@@ -10,24 +10,29 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Getter;
+import lombok.Setter;
 /**
  * Clase que mapea la tabla de vacante
  * @author Ivan Manuel Baltierra Muñoz.
  * 12/11/2020
  *
  */
+@Setter
+@Getter
 @Entity
 @Table(name="VACANTES")
 public class Vacante implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="ID_VACANTE")
 	@SequenceGenerator(name="SEC_ID_VACANTE", sequenceName="SEC_ID_VACANTE",allocationSize = 1)
@@ -62,153 +67,10 @@ public class Vacante implements Serializable{
 	//ignora la columna @Transient
 	
 	@OneToOne(fetch = FetchType.EAGER)
-    @JoinColumns({
-        @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID")})
+    @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID")
 	@JsonProperty("categoria")
 	private Categoria 	categoria; 
-	/**
-	 * 
-	 * @return
-	 */
-	public Integer getIntId() {
-		return intId;
-	}
-	/**
-	 * 
-	 * @param intId
-	 */
-	public void setIntId(Integer intId) {
-		this.intId = intId;
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public String getStrNombre() {
-		return strNombre;
-	}
-	/**
-	 * 
-	 * @param strNombre
-	 */
-	public void setStrNombre(String strNombre) {
-		this.strNombre = strNombre;
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public String getStrDescripcion() {
-		return strDescripcion;
-	}
-	/**
-	 * 
-	 * @param strDescripcion
-	 */
-	public void setStrDescripcion(String strDescripcion) {
-		this.strDescripcion = strDescripcion;
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public Date getfFecha() {
-		return fFecha;
-	}
-	/**
-	 * 
-	 * @param fFecha
-	 */
-	public void setfFecha(Date fFecha) {
-		this.fFecha = fFecha;
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public Double getdSalario() {
-		return dSalario;
-	}
-	/**
-	 * 
-	 * @param dSalario
-	 */
-	public void setdSalario(Double dSalario) {
-		this.dSalario = dSalario;
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public Integer getIntDestacado() {
-		return intDestacado;
-	}
-	/**
-	 * 
-	 * @param intDestacado
-	 */
-	public void setIntDestacado(Integer intDestacado) {
-		this.intDestacado = intDestacado;
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public String getStrImagen() {
-		return strImagen;
-	}
-	/**
-	 * 
-	 * @param strImagen
-	 */
-	public void setStrImagen(String strImagen) {
-		this.strImagen = strImagen;
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public String getStrEstatus() {
-		return strEstatus;
-	}
-	/**
-	 * 
-	 * @param strEstatus
-	 */
-	public void setStrEstatus(String strEstatus) {
-		this.strEstatus = strEstatus;
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public String getStrDetalle() {
-		return strDetalle;
-	}
-	/**
-	 * 
-	 * @param strDetalle
-	 */
-	public void setStrDetalle(String strDetalle) {
-		this.strDetalle = strDetalle;
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public Categoria getCategoria() {
-		return categoria;
-	}
-	/**
-	 * 
-	 * @param categoria
-	 */
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
-	public void resetImage() {
-		this.strImagen = null;
-	}
+	
 	@Override
 	public String toString() {
 		return "Vacante [intId=" + intId + ", strNombre=" + strNombre + ", strDescripcion=" + strDescripcion

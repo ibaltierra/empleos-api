@@ -1,19 +1,19 @@
 package com.mx.ivanapi.empleosapi.model;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+@Setter
+@Getter
 @Table(name="CATEGORIAS")
 @Entity
 public class Categoria implements Serializable{
@@ -27,25 +27,7 @@ public class Categoria implements Serializable{
 	@Column(name="DESCRIPCION")
 	private String strDescripcion;/*
 	@OneToMany(targetEntity = Vacante.class)
-	private List<Vacante> lstVacantes;*/
-	public Integer getIntId() {
-		return intId;
-	}
-	public void setIntId(Integer intId) {
-		this.intId = intId;
-	}
-	public String getStrNombre() {
-		return strNombre;
-	}
-	public void setStrNombre(String strNombre) {
-		this.strNombre = strNombre;
-	}
-	public String getStrDescripcion() {
-		return strDescripcion;
-	}
-	public void setStrDescripcion(String strDescripcion) {
-		this.strDescripcion = strDescripcion;
-	}
+	private List<Vacante> lstVacantes;*/	
 	@Override
 	public String toString() {
 		return "Categoria [intId=" + intId + ", strNombre=" + strNombre + ", strDescripcion=" + strDescripcion + "]";

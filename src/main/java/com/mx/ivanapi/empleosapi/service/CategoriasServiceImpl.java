@@ -1,36 +1,37 @@
 package com.mx.ivanapi.empleosapi.service;
 
-import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.mx.ivanapi.empleosapi.controller.constants.Constant;
+import com.mx.ivanapi.empleosapi.controller.to.CategoriaTO;
 import com.mx.ivanapi.empleosapi.model.Categoria;
 import com.mx.ivanapi.empleosapi.repository.CategoriasRepository;
+import com.mx.ivanapi.empleosapi.response.ExceptionGeneria;
+import com.mx.ivanapi.empleosapi.service.mapper.MapperEmpleosApi;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 //@Primary indica cual es el bean principal de las implementaciones
+@Slf4j
 @Service
 public class CategoriasServiceImpl implements ICategoriasService{
-
-	private List<Categoria> lstCategorias;
+	
 	@Autowired
 	private CategoriasRepository categoriasRepository;
 
 	/**
 	 * Método que regresa todas las categorias.
 	 */
-	public List<Categoria> buscarTodas(){
-		lstCategorias = categoriasRepository.findAll(Sort.by("intId"));
-		return lstCategorias;
+	public List<CategoriaTO> buscarTodas(){
+		return MapperEmpleosApi.mapList(categoriasRepository.findAll(Sort.by(Constant.LABEL_MODEL_INT_ID)), CategoriaTO.class);
 	}
 	/**
 	 * Método que busca las categorias paginadas.
@@ -44,22 +45,22 @@ public class CategoriasServiceImpl implements ICategoriasService{
 	 * Método que realiza la busqueda de una categoria por su id.
 	 * 		//return lstCategorias.stream().filter(cat-> cat.getIntId().intValue() == intId.intValue()).collect(Collectors.toList()).get(0);
 	 */
-	public Categoria buscarPorId(final Integer intId){
+	public CategoriaTO buscarPorId(final Integer intId){
 		final Optional<Categoria> catPorId=this.categoriasRepository.findById(intId);
 		if(catPorId.isPresent()) {
-			return catPorId.get();
+			return MapperEmpleosApi.convertCategoriaEntityTO( catPorId.get() );
 		}
 		return null;
 	}
 	/**
 	 * Método que guarda una categoria.
 	 */
-	public boolean guardar(final Categoria categoria) {
+	public boolean guardar(final CategoriaTO categoria) {
 		try {
-			this.categoriasRepository.save(categoria);
+			this.categoriasRepository.save(MapperEmpleosApi.convertCategoriaToEntity( categoria) );
 			return Boolean.TRUE;
 		}catch(final Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 			return Boolean.FALSE;
 		}
 	}
@@ -68,13 +69,13 @@ public class CategoriasServiceImpl implements ICategoriasService{
 	 * @param intId
 	 * @return
 	 */
-	public boolean eliminar(final Integer intId) {
+	public boolean eliminar(final Integer intId) throws ExceptionGeneria{
 		try {
 			this.categoriasRepository.deleteById(intId);
 			return Boolean.TRUE;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Boolean.FALSE;
+		} catch (final Exception e) {
+			log.error(e.getMessage());
+			throw new ExceptionGeneria(e.getMessage());
 		}
 	}
 	

@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mx.ivanapi.empleosapi.response.ExceptionGeneria;
 import com.mx.ivanapi.empleosapi.response.Response;
+import com.mx.ivanapi.empleosapi.controller.to.VacanteTO;
 import com.mx.ivanapi.empleosapi.model.Vacante;
 import com.mx.ivanapi.empleosapi.service.IVacantesService;
 
@@ -32,9 +31,9 @@ public class VacantesApiController {
 	
 	@Autowired
 	private IVacantesService vacanteRepository;
-	private List<Vacante> lstVacantes;
+	private List<VacanteTO> lstVacantes;
 	@GetMapping("/buscarTodas")
-	public List<Vacante> buscarTodas(){
+	public List<VacanteTO> buscarTodas(){
 		lstVacantes = vacanteRepository.buscarTodas();
 		return lstVacantes;
 	}
@@ -53,7 +52,7 @@ public class VacantesApiController {
 	 * @return
 	 */
 	@GetMapping("/buscarDestacadas")
-	public List<Vacante>buscarDestacadas(){
+	public List<VacanteTO>buscarDestacadas(){
 		lstVacantes = vacanteRepository.buscarDestacadas();
 		return lstVacantes;
 	}
@@ -64,7 +63,7 @@ public class VacantesApiController {
 	 * @return
 	 */
 	@GetMapping("/buscarPorId/{id}")
-	public Vacante buscarPorId(@PathVariable("id") final int intId) {
+	public VacanteTO buscarPorId(@PathVariable("id") final int intId) {
 		return this.vacanteRepository.buscarPorId(intId);			
 	}
 	/**
@@ -73,13 +72,13 @@ public class VacantesApiController {
 	 * @return
 	 */
 	@PostMapping(value = "/guardar", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Response> guardar(@RequestBody final Vacante vacante) {	
+	public ResponseEntity<Response> guardar(@RequestBody final VacanteTO vacante) {	
 		this.vacanteRepository.guardar(vacante);	
 		Response result = new Response(vacante.getIntId(), vacante.getStrNombre());
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	@PutMapping(value = "/modificar/{id}")
-	public ResponseEntity<Response> modificar(@PathVariable("id") final Integer intId, @RequestBody final Vacante vacante) throws ExceptionGeneria {		
+	public ResponseEntity<Response> modificar(@PathVariable("id") final Integer intId, @RequestBody final VacanteTO vacante) throws ExceptionGeneria {		
 		if(this.vacanteRepository.buscarPorId(intId) == null) {
 			throw new ExceptionGeneria("No se encuentra el id!!");
 		}

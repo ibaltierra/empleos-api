@@ -6,6 +6,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.mx.ivanapi.empleosapi.controller.to.VacanteTO;
 import com.mx.ivanapi.empleosapi.model.Vacante;
 
 
@@ -14,7 +15,7 @@ public interface IVacantesService {
 	 * Método que realiza la busqueda de todas las vacantes.
 	 * @return
 	 */
-	public List<Vacante> buscarTodas();
+	public List<VacanteTO> buscarTodas();
 	/**
 	 * Método que realiza la busqeuda de todos paginado.
 	 * @param page
@@ -26,18 +27,18 @@ public interface IVacantesService {
 	 * @param vacante
 	 * @return
 	 */
-	Vacante buscarPorId(int intId);
+	VacanteTO buscarPorId(int intId);
 	/**
 	 * Método que guarda una vacante.
 	 * @param vacante
 	 * @return
 	 */
-	public boolean guardar(final Vacante vacante);
+	public boolean guardar(final VacanteTO vacante);
 	/**
 	 * Mètodo que busca todas las vacantes destacadas.
 	 * @return
 	 */
-	public List<Vacante>buscarDestacadas();
+	public List<VacanteTO>buscarDestacadas();
 	
 	public void eliminar(final Integer intIdVacante);
 	

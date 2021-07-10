@@ -21,19 +21,18 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mx.ivanapi.empleosapi.controller.constants.Constant;
-import com.mx.ivanapi.empleosapi.model.Categoria;
+import com.mx.ivanapi.empleosapi.controller.to.CategoriaTO;
 import com.mx.ivanapi.empleosapi.service.ICategoriasService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CategoriaApiControllerTest {
-
 	@MockBean
 	private ICategoriasService categoriasService;
 	@InjectMocks
 	private CategoriaApiController apiController;
 	private MockMvc mockMvc; 
 	private ObjectMapper mapper = new ObjectMapper();
-	private final static Categoria CATEGORIA = new Categoria();
+	private final static CategoriaTO CATEGORIA = new CategoriaTO();
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
@@ -43,7 +42,7 @@ public class CategoriaApiControllerTest {
 	}
 	@Test
 	public void buscarTodasTest() throws Exception{
-		when(categoriasService.buscarTodas()).thenReturn(new ArrayList<Categoria>());
+		when(categoriasService.buscarTodas()).thenReturn(new ArrayList<CategoriaTO>());
 		this.mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_PACKAGE_CATEGORIA + "/buscarTodas")
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
@@ -52,7 +51,7 @@ public class CategoriaApiControllerTest {
 	@Test
 	public void buscarPorIdTest() throws Exception{
 		when(categoriasService.buscarPorId(Mockito.anyInt())).thenReturn(Mockito.any());
-		this.mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_PACKAGE_CATEGORIA+ "/buscarPorId/{id}",1)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_PACKAGE_CATEGORIA+ "/buscarPorId/{id}", Constant.N001)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
@@ -68,7 +67,7 @@ public class CategoriaApiControllerTest {
 	@Test
 	public void eliminarTest() throws Exception{
 		when(categoriasService.buscarPorId(Mockito.anyInt())).thenReturn(CATEGORIA);
-		this.mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_PACKAGE_CATEGORIA + "/eliminar/{id}",1)
+		this.mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_PACKAGE_CATEGORIA + "/eliminar/{id}", Constant.N001)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());

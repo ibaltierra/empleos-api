@@ -2,9 +2,7 @@ package com.mx.ivanapi.empleosapi.service;
 
 import java.util.List;
 
-import com.mx.ivanapi.empleosapi.model.Usuario;
-
-
+import com.mx.ivanapi.empleosapi.controller.to.UsuarioTO;
 
 public interface IUsuarioService {
 
@@ -13,18 +11,18 @@ public interface IUsuarioService {
 	 * @param usuario
 	 * @return
 	 */
-	public boolean guardar(final Usuario usuario);
+	public boolean guardar(final UsuarioTO usuario);
 	/**
 	 * Mètodo que realiza la busqueda de todos los usuarios.
 	 * @return
 	 */
-	public List<Usuario> buscarTodo();
+	public List<UsuarioTO> buscarTodo();
 	/**
 	 * Mètodo que realiza la busqueda de un usuario por su id.
 	 * @param intId
 	 * @return
 	 */
-	public Usuario buscarPorId(final Integer intId);
+	public UsuarioTO buscarPorId(final Integer intId);
 	/**
 	 * Mètodo que elimina un usuario.
 	 * @param intId
@@ -36,6 +34,6 @@ public interface IUsuarioService {
 	 * @param strUserName
 	 * @return
 	 */
-	public Usuario buscarPorUserName(final String strUserName);
+	public UsuarioTO buscarPorUserName(final String strUserName);
 	
 }

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mx.ivanapi.empleosapi.controller.to.CategoriaTO;
 import com.mx.ivanapi.empleosapi.model.Categoria;
+import com.mx.ivanapi.empleosapi.response.ExceptionGeneria;
 import com.mx.ivanapi.empleosapi.response.Response;
 import com.mx.ivanapi.empleosapi.service.ICategoriasService;
 @RequestMapping("/apiCategoria")
@@ -25,15 +27,15 @@ public class CategoriaApiController {
 	@Autowired
 	private ICategoriasService categoriasService;
 	@GetMapping(value="/buscarTodas")
-	public List<Categoria> buscarTodas(){
+	public List<CategoriaTO> buscarTodas(){
 		return categoriasService.buscarTodas();
 	}
 	@GetMapping(value="/buscarPorId/{id}")
-	public Categoria buscarPorId(@PathVariable("id")final Integer intId) {
+	public CategoriaTO buscarPorId(@PathVariable("id")final Integer intId) {
 		return categoriasService.buscarPorId(intId);
 	}
 	@PostMapping("/guardar")
-	public ResponseEntity<Response> guardar(@RequestBody final Categoria categoria) {
+	public ResponseEntity<Response> guardar(@RequestBody final CategoriaTO categoria) {
 		categoriasService.guardar(categoria);
 		Response result = new Response(categoria.getIntId(), categoria.getStrNombre());		
 		return new ResponseEntity<>(result, HttpStatus.OK);
@@ -44,8 +46,8 @@ public class CategoriaApiController {
 	 * @return
 	 */
 	@DeleteMapping("/eliminar/{id}")
-	public ResponseEntity<Response> eliminar(@PathVariable("id") final Integer intId) {
-		final Categoria cat = this.buscarPorId(intId);
+	public ResponseEntity<Response> eliminar(@PathVariable("id") final Integer intId)throws ExceptionGeneria {
+		final CategoriaTO cat = this.buscarPorId(intId);
 		final Response result = new Response(cat.getIntId(), cat.getStrNombre());
 		this.categoriasService.eliminar(intId);				
 		return new ResponseEntity<>(result, HttpStatus.OK);
@@ -59,6 +61,4 @@ public class CategoriaApiController {
 	public Page<Categoria> buscarTodasPage(final Pageable pageable){
 		return this.categoriasService.buscarTodasPage(pageable);
 	}
-	
-	
 }

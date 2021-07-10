@@ -29,9 +29,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.mx.ivanapi.empleosapi.controller.constants.Constant;
+import com.mx.ivanapi.empleosapi.controller.to.SolicitudTO;
+import com.mx.ivanapi.empleosapi.controller.to.UsuarioTO;
 import com.mx.ivanapi.empleosapi.model.Solicitud;
 import com.mx.ivanapi.empleosapi.model.Usuario;
 import com.mx.ivanapi.empleosapi.repository.SolicitudesRepository;
+import com.mx.ivanapi.empleosapi.service.mapper.MapperEmpleosApi;
 
 import antlr.Utils;
 
@@ -58,8 +61,8 @@ public class SolicitudesServiceImplTest {
 	@Test
 	public void buscarTodasTest() {
 		when(repository.findAll(Sort.by(Constant.LABEL_MODEL_ID_SOLICITUDES))).thenReturn(new ArrayList<>());
-		final List<Solicitud> lstSolicitudes = this.solicitud.buscarTodas();
-		assertEquals(lstSolicitudes.size(), 0);
+		final List<SolicitudTO> lstSolicitudes = this.solicitud.buscarTodas();
+		assertEquals(Constant.N000, lstSolicitudes.size());
 		assertNotNull(lstSolicitudes);
 		assertTrue(lstSolicitudes.isEmpty());
 	}
@@ -67,40 +70,39 @@ public class SolicitudesServiceImplTest {
 	public void buscarPorIdTest() {
 		SOLICITUD_TEST.setIntIdSolicitudes(ID);
 		when(this.repository.findById(Mockito.anyInt())).thenReturn(SOLICITUD_OPTIONAL);
-		final Solicitud resultado = this.solicitud.buscarPorId(ID);
-		assertEquals(resultado.getIntIdSolicitudes(), ID);
+		final SolicitudTO resultado = this.solicitud.buscarPorId(ID);
+		assertEquals(ID, resultado.getIntIdSolicitudes());
 		assertNotNull(resultado);
 	}
 	@Test
 	public void buscarPorIdNullTest() {
 		when(this.repository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
-		final Solicitud resultado = this.solicitud.buscarPorId(ID);
+		final SolicitudTO resultado = this.solicitud.buscarPorId(ID);
 		assertNull(resultado);	
 	}
 	@Test
 	public void guardarTest() {
-		final boolean blnResultado = this.solicitud.guardar(SOLICITUD_TEST);
-		assertEquals(blnResultado, Boolean.TRUE);
+		final boolean blnResultado = this.solicitud.guardar(MapperEmpleosApi.convertSolicitudEntityTO(SOLICITUD_TEST) );
+		assertEquals(Boolean.TRUE, blnResultado);
 	}
 	@Test
 	public void eliminarTest(){
 		final boolean blnResultado = this.solicitud.eliminar(Mockito.anyInt());
-		assertEquals(blnResultado, Boolean.TRUE);
+		assertEquals(Boolean.TRUE, blnResultado);
 	}
 	@Test
 	public void obtenerSolicitudPorUsuarioTest() {
 		when(this.repository.findByUsuario(Mockito.any())).thenReturn(LST_SOLICITUDES_TEST);
-		final List<Solicitud> lstResultado = this.solicitud.obtenerSolicitudPorUsuario(new Usuario());
-		assertEquals(lstResultado.size(), 1);
+		final List<SolicitudTO> lstResultado = this.solicitud.obtenerSolicitudPorUsuario(new UsuarioTO());
+		assertEquals(Constant.N001, lstResultado.size());
 		assertNotNull(lstResultado);
 		assertFalse(lstResultado.isEmpty());
 	}
 	@Test
 	public void buscarTodasPaginadoTest() {
-		Pageable pageable = PageRequest.of(1, 8);
+		Pageable pageable = PageRequest.of(Constant.N001, Constant.N008);
 		when(repository.findAll( pageableMock)).thenReturn(solicitudPage);
 		final Page<Solicitud> page= this.solicitud.buscarTodas(pageable);
-		System.out.println(page == null? "es null" : "no es null");
 		assertNull(page);
 	}
 }

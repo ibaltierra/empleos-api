@@ -14,6 +14,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name="SOLICITUDES")
 public class Solicitud {
@@ -29,52 +34,15 @@ public class Solicitud {
 	private String strArchivo;
 	@Column(name="COMENTARIOS")
 	private String strComentarios;
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumns({
-		@JoinColumn(name = "ID_VACANTE", referencedColumnName = "ID_VACANTE")
-	})
+	@OneToOne(fetch = FetchType.EAGER)	
+	@JoinColumn(name = "ID_VACANTE", referencedColumnName = "ID_VACANTE")	
 	private Vacante vacante;
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumns({
 		@JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
 	})
-	private Usuario usuario;
-	public Integer getIntIdSolicitudes() {
-		return intIdSolicitudes;
-	}
-	public void setIntIdSolicitudes(Integer intIdSolicitudes) {
-		this.intIdSolicitudes = intIdSolicitudes;
-	}
-	public Date getfFecha() {
-		return fFecha;
-	}
-	public void setfFecha(Date fFecha) {
-		this.fFecha = fFecha;
-	}
-	public String getStrArchivo() {
-		return strArchivo;
-	}
-	public void setStrArchivo(String strArchivo) {
-		this.strArchivo = strArchivo;
-	}
-	public String getStrComentarios() {
-		return strComentarios;
-	}
-	public void setStrComentarios(String strComentarios) {
-		this.strComentarios = strComentarios;
-	}
-	public Vacante getVacante() {
-		return vacante;
-	}
-	public void setVacante(Vacante vacante) {
-		this.vacante = vacante;
-	}
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+	private Usuario usuario;	
+	
 	@Override
 	public String toString() {
 		return "Solicitud [intIdSolicitudes=" + intIdSolicitudes + ", fFecha=" + fFecha + ", strArchivo=" + strArchivo

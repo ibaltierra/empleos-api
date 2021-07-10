@@ -1,6 +1,5 @@
 package com.mx.ivanapi.empleosapi.service;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,13 +10,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mx.ivanapi.empleosapi.controller.constants.Constant;
+import com.mx.ivanapi.empleosapi.controller.to.SolicitudTO;
+import com.mx.ivanapi.empleosapi.controller.to.UsuarioTO;
 import com.mx.ivanapi.empleosapi.model.Solicitud;
 import com.mx.ivanapi.empleosapi.model.Usuario;
 import com.mx.ivanapi.empleosapi.repository.SolicitudesRepository;
+import com.mx.ivanapi.empleosapi.service.mapper.MapperEmpleosApi;
 
 
 @Service
-public class SolicitudesServiceImpl implements ISolicitudesService, Serializable {
+public class SolicitudesServiceImpl implements ISolicitudesService {
 
 	@Autowired
 	private SolicitudesRepository repository;
@@ -25,8 +27,8 @@ public class SolicitudesServiceImpl implements ISolicitudesService, Serializable
 	 *Método que busca todas las solicitudes. 
 	 * @return
 	 */
-	public List<Solicitud> buscarTodas(){
-		return repository.findAll(Sort.by(Constant.LABEL_MODEL_ID_SOLICITUDES));
+	public List<SolicitudTO> buscarTodas(){
+		return MapperEmpleosApi.mapList( repository.findAll(Sort.by(Constant.LABEL_MODEL_ID_SOLICITUDES)), SolicitudTO.class);
 	}
 	/**
 	 *Método que busca todas las solicitudes por paginas. 
@@ -39,10 +41,10 @@ public class SolicitudesServiceImpl implements ISolicitudesService, Serializable
 	 * Método que busca una solicitud por su id.
 	 * @return
 	 */
-	public Solicitud buscarPorId(final Integer intId) {
-		Optional<Solicitud> tmp = this.repository.findById(intId);
+	public SolicitudTO buscarPorId(final Integer intId) {
+		final Optional<Solicitud> tmp = this.repository.findById(intId);
 		if(tmp.isPresent()) {
-			return tmp.get();
+			return MapperEmpleosApi.convertSolicitudEntityTO(tmp.get());
 		}
 		return null;		
 	}
@@ -51,8 +53,8 @@ public class SolicitudesServiceImpl implements ISolicitudesService, Serializable
 	 * @param solicitud
 	 * @return
 	 */
-	public boolean guardar(final Solicitud solicitud) {
-		this.repository.save(solicitud);
+	public boolean guardar(final SolicitudTO solicitud) {
+		this.repository.save(MapperEmpleosApi.convertSolicitudToEntity(solicitud) );
 		return Boolean.TRUE;
 	}
 	/**
@@ -64,7 +66,9 @@ public class SolicitudesServiceImpl implements ISolicitudesService, Serializable
 		this.repository.deleteById(intId);
 		return Boolean.TRUE;
 	}
-	public List<Solicitud> obtenerSolicitudPorUsuario(final Usuario usuario){
-		return this.repository.findByUsuario(usuario);
+	public List<SolicitudTO> obtenerSolicitudPorUsuario(final UsuarioTO usuario){
+		return MapperEmpleosApi.mapList(this.repository
+				.findByUsuario(MapperEmpleosApi.convertUserToEntity(usuario) )
+				, SolicitudTO.class);
 	}
 }

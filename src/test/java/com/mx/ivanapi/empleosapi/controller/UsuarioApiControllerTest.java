@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -23,19 +22,18 @@ import org.springframework.web.util.NestedServletException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mx.ivanapi.empleosapi.controller.constants.Constant;
-import com.mx.ivanapi.empleosapi.model.Usuario;
+import com.mx.ivanapi.empleosapi.controller.to.UsuarioTO;
 import com.mx.ivanapi.empleosapi.service.IUsuarioService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UsuarioApiControllerTest {
-
 	@InjectMocks
 	private UsuarioApiController controller;
 	@MockBean
 	private IUsuarioService service; 
 	private MockMvc mockMvc; 
-	private final static Usuario USUARIO_BUSQUEDA = new Usuario();
-	private final static Usuario USUARIO_GUARDAR = new Usuario();
+	private final static UsuarioTO USUARIO_BUSQUEDA = new UsuarioTO();
+	private final static UsuarioTO USUARIO_GUARDAR = new UsuarioTO();
 	private final static String NAME = "Ivan";
 	private ObjectMapper mapper = new ObjectMapper();
 	@Before
@@ -45,7 +43,7 @@ public class UsuarioApiControllerTest {
 	}
 	@Test
 	public void buscarTodoTest()throws Exception {
-		when(this.service.buscarTodo()).thenReturn(new ArrayList<Usuario>());
+		when(this.service.buscarTodo()).thenReturn(new ArrayList<UsuarioTO>());
 		this.mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_PACKAGE_USUARIOS + "/buscarTodo")
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
@@ -53,7 +51,7 @@ public class UsuarioApiControllerTest {
 	@Test
 	public void buscarPorIdTest() throws Exception{
 		when(this.service.buscarPorId(Mockito.anyInt())).thenReturn(USUARIO_BUSQUEDA);
-		this.mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_PACKAGE_USUARIOS + "/buscarPorId/{id}", 1)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_PACKAGE_USUARIOS + "/buscarPorId/{id}", Constant.N001)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
@@ -61,7 +59,7 @@ public class UsuarioApiControllerTest {
 	@Test
 	public void eliminarTest()throws Exception {
 		when(this.service.eliminar(Mockito.anyInt())).thenReturn(Boolean.TRUE);
-		this.mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_PACKAGE_USUARIOS + "/eliminar/{id}", 1)
+		this.mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_PACKAGE_USUARIOS + "/eliminar/{id}", Constant.N001)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
@@ -69,7 +67,7 @@ public class UsuarioApiControllerTest {
 	@Test(expected = NestedServletException.class)
 	public void eliminarBadRequestTest()throws Exception {
 		when(this.service.eliminar(Mockito.anyInt())).thenReturn(Boolean.FALSE);
-		this.mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_PACKAGE_USUARIOS + "/eliminar/{id}", 1)
+		this.mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_PACKAGE_USUARIOS + "/eliminar/{id}", Constant.N001)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isBadRequest())
 		.andDo(MockMvcResultHandlers.print());

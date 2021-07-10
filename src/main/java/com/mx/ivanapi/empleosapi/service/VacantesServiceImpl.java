@@ -10,14 +10,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.mx.ivanapi.empleosapi.controller.to.VacanteTO;
 import com.mx.ivanapi.empleosapi.model.Vacante;
 import com.mx.ivanapi.empleosapi.repository.VacanteRepository;
+import com.mx.ivanapi.empleosapi.service.mapper.MapperEmpleosApi;
 
 import java.util.Optional;
 
 @Service
 public class VacantesServiceImpl implements IVacantesService{
-	private List<Vacante> lstVacantes = null;
 	@Autowired
 	private VacanteRepository vacanteRepository;
 	@Autowired
@@ -29,9 +30,8 @@ public class VacantesServiceImpl implements IVacantesService{
 	 * @return
 	 */
 	@Override
-	public List<Vacante> buscarTodas(){
-		lstVacantes = vacanteRepository.findAll();
-		return lstVacantes;
+	public List<VacanteTO> buscarTodas(){
+		return MapperEmpleosApi.mapList( vacanteRepository.findAll() , VacanteTO.class);
 	}
 	/**
 	 * Método que realiza la busqeuda de todos paginado.
@@ -47,9 +47,9 @@ public class VacantesServiceImpl implements IVacantesService{
 	 * Mètodo que busca todas las vacantes destacadas.
 	 * @return
 	 */
-	public List<Vacante>buscarDestacadas(){
-		lstVacantes = vacanteRepository.findByIntDestacadoAndStrEstatusOrderByIntIdDesc(1, "Aprobada");
-		return lstVacantes;
+	public List<VacanteTO>buscarDestacadas(){
+		return MapperEmpleosApi.mapList( vacanteRepository.findByIntDestacadoAndStrEstatusOrderByIntIdDesc(1, "Aprobada"),
+				VacanteTO.class);
 	}
 	
 	/**
@@ -59,10 +59,10 @@ public class VacantesServiceImpl implements IVacantesService{
 	 * 		//return this.lstVacantes.stream().filter(vacante -> vacante.getIntId().intValue() == intId).collect(Collectors.toList()).get(0);
 	 */
 	@Override
-	public Vacante buscarPorId(final int intId) {
-		Optional< Vacante> tmp = this.vacanteRepository.findById(intId);
-		if(tmp.isPresent()) {
-			return tmp.get();
+	public VacanteTO buscarPorId(final int intId) {
+		final Optional<Vacante> tmp = this.vacanteRepository.findById(intId);
+		if(tmp.isPresent()) {			
+			return MapperEmpleosApi.convertVacanteTOVacanteTO(tmp.get());
 		}
 		return null;
 		
@@ -72,16 +72,10 @@ public class VacantesServiceImpl implements IVacantesService{
 	 * @param vacante
 	 * @return
 	 */
-	public boolean guardar(final Vacante vacante) {
-		try {
-			this.vacanteRepository.save(vacante);		
-		}catch(final NullPointerException ex) {
-			ex.printStackTrace();
-			return Boolean.FALSE;
-		}catch(final Exception e) {
-			e.printStackTrace();
-			return Boolean.FALSE;
-		}
+	public boolean guardar(final VacanteTO vacante) {
+		
+		this.vacanteRepository.save(MapperEmpleosApi.convertVacanteTOTOVacante( vacante ) );		
+		
 		return Boolean.TRUE;
 	}
 	/**

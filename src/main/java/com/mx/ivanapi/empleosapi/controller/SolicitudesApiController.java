@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.mx.ivanapi.empleosapi.controller.to.SolicitudTO;
 import com.mx.ivanapi.empleosapi.model.Solicitud;
 import com.mx.ivanapi.empleosapi.response.Response;
 import com.mx.ivanapi.empleosapi.service.ISolicitudesService;
@@ -31,7 +31,7 @@ public class SolicitudesApiController {
 	 * @return
 	 */
 	@GetMapping(value="/buscarTodas")
-	public List<Solicitud> buscarTodas(){
+	public List<SolicitudTO> buscarTodas(){
 		return service.buscarTodas();				
 	}
 	/**
@@ -47,7 +47,7 @@ public class SolicitudesApiController {
 	 * @return
 	 */
 	@GetMapping(value="/buscarPorId/{id}")
-	public Solicitud buscarPorId(@PathVariable("id") final Integer intId) {
+	public SolicitudTO buscarPorId(@PathVariable("id") final Integer intId) {
 		return this.service.buscarPorId(intId);
 	}
 	/**
@@ -56,10 +56,10 @@ public class SolicitudesApiController {
 	 * @return
 	 */
 	@PostMapping(value="/guardar")
-	public ResponseEntity<Response> guardar(@RequestBody final Solicitud solicitud) {
+	public ResponseEntity<Response> guardar(@RequestBody final SolicitudTO solicitud) {
 		this.service.guardar(solicitud);
 		Response resultado = new Response(solicitud.getVacante().getIntId(), solicitud.getStrComentarios());
-		return new ResponseEntity<Response>(resultado, HttpStatus.OK);
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	/**
 	 * Método que elimina una solicitud por su id.
@@ -70,6 +70,6 @@ public class SolicitudesApiController {
 	public ResponseEntity<Response> eliminar(@PathVariable("id") final Integer intId) {
 		this.service.eliminar(intId);
 		final Response resultado = new Response(intId, "¡Registro eliminado!");
-		return new ResponseEntity<Response>(resultado, HttpStatus.OK);
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 }

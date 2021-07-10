@@ -15,6 +15,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 @Entity
 @Table(name="USUARIOS")
 public class Usuario {
@@ -43,57 +48,9 @@ public class Usuario {
 	private List<Perfil> perfiles;
 	public void agregar(final Perfil perfil) {
 		if(perfiles == null) {
-			perfiles = new ArrayList<Perfil>();
+			perfiles = new ArrayList<>();
 		}
 		perfiles.add(perfil);
-	}
-	public Integer getIntIdUsuario() {
-		return intIdUsuario;
-	}
-	public void setIntIdUsuario(Integer intIdUsuario) {
-		this.intIdUsuario = intIdUsuario;
-	}
-	public String getStrNombre() {
-		return strNombre;
-	}
-	public void setStrNombre(String strNombre) {
-		this.strNombre = strNombre;
-	}
-	public String getStrEmail() {
-		return strEmail;
-	}
-	public void setStrEmail(String strEmail) {
-		this.strEmail = strEmail;
-	}
-	public String getStrUserName() {
-		return strUserName;
-	}
-	public void setStrUserName(String strUserName) {
-		this.strUserName = strUserName;
-	}
-	public String getStrPassword() {
-		return strPassword;
-	}
-	public void setStrPassword(String strPassword) {
-		this.strPassword = strPassword;
-	}
-	public Integer getIntEstatus() {
-		return intEstatus;
-	}
-	public void setIntEstatus(Integer intEstatus) {
-		this.intEstatus = intEstatus;
-	}
-	public Date getfFechaRegistro() {
-		return fFechaRegistro;
-	}
-	public void setfFechaRegistro(Date fFechaRegistro) {
-		this.fFechaRegistro = fFechaRegistro;
-	}
-	public List<Perfil> getPerfiles() {
-		return perfiles;
-	}
-	public void setPerfiles(List<Perfil> perfiles) {
-		this.perfiles = perfiles;
 	}
 	@Override
 	public String toString() {

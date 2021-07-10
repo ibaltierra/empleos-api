@@ -6,8 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mx.ivanapi.empleosapi.controller.to.UsuarioTO;
 import com.mx.ivanapi.empleosapi.model.Usuario;
 import com.mx.ivanapi.empleosapi.repository.UsuarioRepository;
+import com.mx.ivanapi.empleosapi.service.mapper.MapperEmpleosApi;
+
 
 
 /**
@@ -27,32 +30,27 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	 * @param usuario
 	 * @return
 	 */
-	public boolean guardar(final Usuario usuario) {
-		try {
-			usuarioRepository.save(usuario);
+	public boolean guardar(final UsuarioTO usuario) {		
+			usuarioRepository.save(MapperEmpleosApi.convertUserToEntity(usuario) );
 			return Boolean.TRUE;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return Boolean.FALSE;
-		}
+			
 	}
 	/**
 	 * Mètodo que realiza la busqueda de todos los usuarios.
 	 * @return
 	 */
-	public List<Usuario> buscarTodo() {
-		return usuarioRepository.findAll();
+	public List<UsuarioTO> buscarTodo() {
+		return MapperEmpleosApi.mapList(usuarioRepository.findAll(), UsuarioTO.class);
 	}
 	/**
 	 * Mètodo que realiza la busqueda de un usuario por su id.
 	 * @param intId
 	 * @return
 	 */
-	public Usuario buscarPorId(final Integer intId) {
+	public UsuarioTO buscarPorId(final Integer intId) {
 		final Optional< Usuario> tmp = usuarioRepository.findById(intId);
 		if(tmp.isPresent()) {
-			return tmp.get();
+			return MapperEmpleosApi.convertUserEntityTO(tmp.get() );
 		}
 		return null;		
 	}
@@ -61,28 +59,22 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	 * @param intId
 	 * @return
 	 */
-	public boolean eliminar(final Integer intId) {
-		try {
-			final Usuario tmp = new Usuario();
+	public boolean eliminar(final Integer intId) {		
+			final UsuarioTO tmp = new UsuarioTO();
 			tmp.setIntIdUsuario(intId);
 			if(this.solicitudesService.obtenerSolicitudPorUsuario(tmp).isEmpty()) {				
 				usuarioRepository.deleteById(intId);
 				return Boolean.TRUE;
 			}
 			return Boolean.FALSE;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return Boolean.FALSE;
-		}
+		
 	}
 	/**
 	 * Método que busca un usuario por su user name.
 	 * @param strUserName
 	 * @return
 	 */
-	public Usuario buscarPorUserName(final String strUserName) {
-		return this.usuarioRepository.findByStrUserName(strUserName);
+	public UsuarioTO buscarPorUserName(final String strUserName) {
+		return MapperEmpleosApi.convertUserEntityTO(this.usuarioRepository.findByStrUserName(strUserName) );
 	}
-	
 }

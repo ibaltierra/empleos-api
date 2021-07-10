@@ -1,6 +1,5 @@
 package com.mx.ivanapi.empleosapi.controller;
 
-import static org.mockito.Mockito.mockitoSession;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,8 +23,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mx.ivanapi.empleosapi.controller.constants.Constant;
+import com.mx.ivanapi.empleosapi.controller.to.SolicitudTO;
+import com.mx.ivanapi.empleosapi.controller.to.VacanteTO;
 import com.mx.ivanapi.empleosapi.model.Solicitud;
-import com.mx.ivanapi.empleosapi.model.Vacante;
 import com.mx.ivanapi.empleosapi.service.ISolicitudesService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,8 +41,8 @@ public class SolicitudesApiControllerTest {
     private Page<Solicitud> solicitudPage;
 	private MockMvc mockMvc; 
 	
-	private final static Solicitud SOLICITUD = new Solicitud();
-	private final static Vacante VACANTE = new Vacante();
+	private final static SolicitudTO SOLICITUD = new SolicitudTO();
+	private final static VacanteTO VACANTE = new VacanteTO();
 	private ObjectMapper mapper = new ObjectMapper();
 	@Before
 	public void init() {
@@ -65,7 +64,7 @@ public class SolicitudesApiControllerTest {
 	@Test
 	public void buscarPorIdTest()throws Exception {
 		when(this.service.buscarPorId(Mockito.anyInt())).thenReturn(SOLICITUD);
-		this.mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_PACKAGE_SOLICITUDES + "/buscarPorId/{id}",1)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(Constant.BASE_PACKAGE_SOLICITUDES + "/buscarPorId/{id}", Constant.N001)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
@@ -80,7 +79,7 @@ public class SolicitudesApiControllerTest {
 	}
 	@Test
 	public void eliminarTest()throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_PACKAGE_SOLICITUDES + "/eliminar/{id}",1)
+		this.mockMvc.perform(MockMvcRequestBuilders.delete(Constant.BASE_PACKAGE_SOLICITUDES + "/eliminar/{id}", Constant.N001)
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(MockMvcResultHandlers.print());
