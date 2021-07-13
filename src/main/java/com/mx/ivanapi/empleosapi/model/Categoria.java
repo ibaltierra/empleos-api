@@ -17,6 +17,10 @@ import lombok.Setter;
 @Table(name="CATEGORIAS")
 @Entity
 public class Categoria implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="ID")
 	@SequenceGenerator(name="SEC_ID_CATEGORIA", sequenceName="SEC_ID_CATEGORIA",allocationSize = 1)
