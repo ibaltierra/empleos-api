@@ -13,7 +13,6 @@ import com.mx.ivanapi.empleosapi.controller.constants.Constant;
 import com.mx.ivanapi.empleosapi.controller.to.SolicitudTO;
 import com.mx.ivanapi.empleosapi.controller.to.UsuarioTO;
 import com.mx.ivanapi.empleosapi.model.Solicitud;
-import com.mx.ivanapi.empleosapi.model.Usuario;
 import com.mx.ivanapi.empleosapi.repository.SolicitudesRepository;
 import com.mx.ivanapi.empleosapi.service.mapper.MapperEmpleosApi;
 
