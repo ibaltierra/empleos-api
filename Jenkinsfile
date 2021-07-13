@@ -11,10 +11,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Iniciando la construcción....."
-            }
-			steps{
 				sh 'mvn clean install sonar:sonar'
-			}
+            }
         }        
     }
 }
