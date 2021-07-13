@@ -4,7 +4,9 @@ pipeline {
     tools {
         maven 'mavenjenkins'
     }
-    
+    triggers {
+        githubPush()
+    }
     stages {
         stage('Build') {
             steps {
