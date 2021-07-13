@@ -10,15 +10,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                echo "Iniciando la construcción....."
             }
-        }
-        
-		stage('Sonar'){
 			steps{
 				sh 'mvn clean install sonar:sonar'
 			}
-		}
-		
+        }        
     }
 }
