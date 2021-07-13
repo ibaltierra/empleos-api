@@ -13,6 +13,11 @@ pipeline {
                 echo "Iniciando la construcción....."
 				sh 'mvn clean install sonar:sonar'
             }
+	    post {
+                always {
+                    slackSend color: '#BADA55', message: 'Termino el proceso!'
+                }
+            }
         }        
     }
 }
